@@ -1,0 +1,20 @@
+scoreboard:
+  title: '&dAnime&8Board'
+  content:
+    #- 'PlaceHolders require papi'
+    - '&c&lPLAYER'
+    - '&9Ping: &a%player_ping%'
+    - '&9World: &a%player_world%'
+    - '&9Name: &a%player_displayname%'
+    - '&9EXP Level: &a%player_exp%'
+    - ' '
+    - '&c&lSERVER'
+    - '&9TPS: &a%server_tps_1%'
+    - '&9Version: &a%server_version%'
+    - '&9Up-Time: &a%server_uptime%'
+
+#Built in placeholders
+# %playername% players username
+# %playerdisplayname% players name with ranks etc
+# %maxplayers% max players in the server
+# %players% the amount of players in the server

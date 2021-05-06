@@ -1,0 +1,15 @@
+name: AnimeBoard
+version: 1.10 SNAPSHOT
+main: com.justdoom.animeboard.AnimeBoard
+api-version: 1.13
+authors: [ JustDoom ]
+softdepend:
+  - PlaceHolderAPI
+commands:
+  animeboard:
+    aliases: ab
+    permission: animeboard
+
+permissions:
+  animeboard:
+    default: op
