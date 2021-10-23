@@ -22,17 +22,14 @@ public final class AnimeBoard extends JavaPlugin {
         INSTANCE = this;
     }
 
+    private boolean placeholderAPI = false;
+
     @Override
     public void onEnable() {
         int pluginId = 9758;
         Metrics metrics = new Metrics(this, pluginId);
 
-        metrics.addCustomChart(new Metrics.SimplePie("used_language", new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                return getConfig().getString("language", "en");
-            }
-        }));
+        metrics.addCustomChart(new Metrics.SimplePie("used_language", () -> getConfig().getString("language", "en")));
 
         this.getCommand("animeboard").setExecutor(new ScoreboardCommands());
         this.getCommand("animeboard").setTabCompleter(new AnimeBoardTabCompletion());
@@ -40,5 +37,7 @@ public final class AnimeBoard extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 
         saveDefaultConfig();
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) placeholderAPI = true;
     }
 }

@@ -12,11 +12,11 @@ public class ScoreboardCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if(command.getName().equalsIgnoreCase("animeboard") && sender.hasPermission("animeboard")) {
+        if (command.getName().equalsIgnoreCase("animeboard") && sender.hasPermission("animeboard")) {
 
-            if(args.length == 0){
+            if (args.length == 0) {
                 sender.sendMessage("AnimeBoard\nAuthor: JustDoom\nHelp Command: /animeboard help");
-            }else if(args[0].equalsIgnoreCase("reload")) {
+            } else if (args[0].equalsIgnoreCase("reload")) {
                 AnimeBoard.INSTANCE.reloadConfig();
 
                 AnimeBoard.INSTANCE.getBoardHandler().clearScoreboards();

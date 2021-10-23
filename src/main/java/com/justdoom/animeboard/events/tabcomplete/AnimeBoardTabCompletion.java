@@ -14,15 +14,13 @@ public class AnimeBoardTabCompletion implements TabCompleter {
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(arguments.isEmpty()){
-            arguments.add("reload");
-        }
+        if (arguments.isEmpty()) arguments.add("reload");
 
         List<String> result = new ArrayList<String>();
 
-        if(args.length == 1){
-            for(String a:arguments){
-                if(a.toLowerCase().startsWith(args[0].toLowerCase())){
+        if (args.length == 1) {
+            for (String a : arguments) {
+                if (a.toLowerCase().startsWith(args[0].toLowerCase())) {
                     result.add(a);
                 }
             }

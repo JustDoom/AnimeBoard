@@ -3,7 +3,7 @@
 Designed to be a good scoreboard plugin!
 
 Versions:
-- Should work with all versions 1.8 - 1.16 but currently only tested specifically with 1.12 and 1.16. It is mainly targeted towards 1.13+
+- Should work with all versions 1.8 - 1.17 but currently only tested specifically with 1.12 and 1.17. It is mainly targeted towards 1.13+
 
 FEATURES
 - PAPI support (Now updates PlaceHolders)
@@ -22,7 +22,7 @@ Recently I had been looking for a good scoreboard plugin that was free, sadly at
 
 Metrics https://bstats.org/plugin/bukkit/AnimeBoard/9758
 
-This plugin is in its snapshot stages, in this time it will be a free project. When it's fully released it will become a premium resource but it will be cheap! I would probably still update for future versions, just not fix any bugs or update it.
+This plugin is in its beta stages, in this time it will be a free project. When it's fully released it will become a premium resource, but it will be cheap! I would probably still update for future versions, just not fix any bugs or update it.
 
 Over the next few weeks, I will be working on this to bring out as many updates as possible.
 

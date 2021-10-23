@@ -9,16 +9,17 @@ import java.util.regex.Pattern;
 public class MessageUtil {
 
     public static String translate(String message) {
-        if(Bukkit.getVersion().contains("1.16")) {
-            Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
-            Matcher matcher = pattern.matcher(message);
+        if(!Bukkit.getVersion().contains("1.16")) return message;
 
-            while (matcher.find()) {
-                String color = message.substring(matcher.start(), matcher.end());
-                message = message.replace(color, ChatColor.of(color) + "");
-                matcher = pattern.matcher(message);
-            }
+        Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
+        Matcher matcher = pattern.matcher(message);
+
+        while (matcher.find()) {
+            String color = message.substring(matcher.start(), matcher.end());
+            message = message.replace(color, ChatColor.of(color) + "");
+            matcher = pattern.matcher(message);
         }
+
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 }

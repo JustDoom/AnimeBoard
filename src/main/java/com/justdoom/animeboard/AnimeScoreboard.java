@@ -25,26 +25,24 @@ public class AnimeScoreboard {
 
         title = MessageUtil.translate(title);
 
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            title = PlaceholderAPI.setPlaceholders(player, title);
-        }
+        if (AnimeBoard.INSTANCE.isPlaceholderAPI()) title = PlaceholderAPI.setPlaceholders(player, title);
 
         Objective obj = board.registerNewObjective("scoreboard", "dummy");
         obj.setDisplayName(title);
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         int number = 1;
-        List<String> content = new ArrayList<String>(AnimeBoard.INSTANCE.getConfig().getStringList("scoreboard.content"));
 
+        List<String> content = new ArrayList<>(AnimeBoard.INSTANCE.getConfig().getStringList("scoreboard.content"));
         List<String> colours = new ArrayList<>(Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "c", "e", "a", "b", "d", "f", "l", "o", "n", "m", "k", "r"));
-
         ListIterator<String> listIter = content.listIterator(content.size());
+
         while (listIter.hasPrevious()) {
             String key = listIter.previous();
             key = MessageUtil.translate(key);
-            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                key = PlaceholderAPI.setPlaceholders(player, key);
-            }
+
+            if (AnimeBoard.INSTANCE.isPlaceholderAPI()) key = PlaceholderAPI.setPlaceholders(player, key);
+
             Random rand = new Random();
             String colour = colours.get(rand.nextInt(colours.size()));
             colours.remove(colour);
@@ -80,24 +78,26 @@ public class AnimeScoreboard {
                 int number2 = 1;
 
                 String title = AnimeBoard.INSTANCE.getConfig().getString("scoreboard.title");
-                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                    title = PlaceholderAPI.setPlaceholders(player, title);
-                }
+
+                if (AnimeBoard.INSTANCE.isPlaceholderAPI()) title = PlaceholderAPI.setPlaceholders(player, title);
+
                 title = MessageUtil.translate(title);
                 obj.setDisplayName(title);
-                List<String> content = new ArrayList<String>(AnimeBoard.INSTANCE.getConfig().getStringList("scoreboard.content"));
 
+                List<String> content = new ArrayList<>(AnimeBoard.INSTANCE.getConfig().getStringList("scoreboard.content"));
                 ListIterator<String> listIter = content.listIterator(content.size());
+
                 while (listIter.hasPrevious()) {
                     String key = listIter.previous();
                     key = MessageUtil.translate(key);
-                    if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                        key = PlaceholderAPI.setPlaceholders(player, key);
-                    }
-                    key = key.replaceAll("%playername%", player.getName());
-                    key = key.replaceAll("%playerdisplayname%", player.getDisplayName());
-                    key = key.replaceAll("%maxplayers%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
-                    key = key.replaceAll("%players%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
+
+                    if (AnimeBoard.INSTANCE.isPlaceholderAPI()) key = PlaceholderAPI.setPlaceholders(player, key);
+
+                    key = key.replaceAll("%playername%", player.getName())
+                            .replaceAll("%playerdisplayname%", player.getDisplayName())
+                            .replaceAll("%maxplayers%", String.valueOf(Bukkit.getServer().getMaxPlayers()))
+                            .replaceAll("%players%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
+
                     if (board2.getTeam("team " + number2) == null) {
                         cancel();
                     } else {
