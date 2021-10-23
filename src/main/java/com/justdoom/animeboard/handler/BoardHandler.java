@@ -1,18 +1,18 @@
-package com.justdoom.animeboard.util;
+package com.justdoom.animeboard.handler;
 
-import com.justdoom.animeboard.Scoreboard;
+import com.justdoom.animeboard.AnimeScoreboard;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class Util {
-    public static HashMap<Player, Scoreboard> cachedScoreboards = new HashMap<>();
+public class BoardHandler {
+    public static HashMap<Player, AnimeScoreboard> cachedScoreboards = new HashMap<>();
 
-    public void addScoreboard(Player player, Scoreboard mineData){
+    public void addScoreboard(Player player, AnimeScoreboard mineData){
         cachedScoreboards.put(player, mineData);
     }
 
-    public Scoreboard getScoreboard(Player player){
+    public AnimeScoreboard getScoreboard(Player player){
         return cachedScoreboards.get(player);
     }
 

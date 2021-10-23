@@ -1,19 +1,26 @@
 package com.justdoom.animeboard;
 
 import com.justdoom.animeboard.commands.ScoreboardCommands;
-import com.justdoom.animeboard.events.JoinEvent;
-import com.justdoom.animeboard.events.QuitEvent;
+import com.justdoom.animeboard.events.PlayerListener;
 import com.justdoom.animeboard.events.tabcomplete.AnimeBoardTabCompletion;
-import com.justdoom.animeboard.util.Util;
+import com.justdoom.animeboard.metrics.Metrics;
+import com.justdoom.animeboard.handler.BoardHandler;
+import com.justdoom.animeboard.util.MessageUtil;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.concurrent.Callable;
 
+@Getter
 public final class AnimeBoard extends JavaPlugin {
 
-    public MessageHandler msgHandler = new MessageHandler();
-    public Util util = new Util();
+    public static AnimeBoard INSTANCE;
+    private BoardHandler boardHandler = new BoardHandler();
+
+    public AnimeBoard() {
+        INSTANCE = this;
+    }
 
     @Override
     public void onEnable() {
@@ -27,11 +34,10 @@ public final class AnimeBoard extends JavaPlugin {
             }
         }));
 
-        this.getCommand("animeboard").setExecutor(new ScoreboardCommands(this));
+        this.getCommand("animeboard").setExecutor(new ScoreboardCommands());
         this.getCommand("animeboard").setTabCompleter(new AnimeBoardTabCompletion());
 
-        Bukkit.getPluginManager().registerEvents(new JoinEvent(this), this);
-        Bukkit.getPluginManager().registerEvents(new QuitEvent(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 
         saveDefaultConfig();
     }

@@ -1,5 +1,6 @@
 package com.justdoom.animeboard;
 
+import com.justdoom.animeboard.util.MessageUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,20 +10,20 @@ import org.bukkit.scoreboard.*;
 
 import java.util.*;
 
-public class Scoreboard {
+public class AnimeScoreboard {
 
-    private Player player;
+    private final Player player;
 
-    public Scoreboard(AnimeBoard plugin, Player player){
+    public AnimeScoreboard(Player player) {
 
         this.player = player;
 
-        String title = plugin.getConfig().getString("scoreboard.title");
+        String title = AnimeBoard.INSTANCE.getConfig().getString("scoreboard.title");
 
         ScoreboardManager manager = Bukkit.getScoreboardManager();
-        org.bukkit.scoreboard.Scoreboard board = manager.getNewScoreboard();
+        Scoreboard board = manager.getNewScoreboard();
 
-        title = plugin.msgHandler.translate(title);
+        title = MessageUtil.translate(title);
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             title = PlaceholderAPI.setPlaceholders(player, title);
@@ -33,38 +34,38 @@ public class Scoreboard {
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         int number = 1;
-        List<String> content = new ArrayList<String>(plugin.getConfig().getStringList("scoreboard.content"));
+        List<String> content = new ArrayList<String>(AnimeBoard.INSTANCE.getConfig().getStringList("scoreboard.content"));
 
-        List<String> colours = new ArrayList<>(Arrays.asList("0", "1","2", "3","4", "5","6", "7","8", "9", "c", "e", "a", "b", "d", "f", "l", "o", "n", "m", "k", "r"));
+        List<String> colours = new ArrayList<>(Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "c", "e", "a", "b", "d", "f", "l", "o", "n", "m", "k", "r"));
 
         ListIterator<String> listIter = content.listIterator(content.size());
         while (listIter.hasPrevious()) {
             String key = listIter.previous();
-            key = plugin.msgHandler.translate(key);
+            key = MessageUtil.translate(key);
             if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                 key = PlaceholderAPI.setPlaceholders(player, key);
             }
             Random rand = new Random();
             String colour = colours.get(rand.nextInt(colours.size()));
             colours.remove(colour);
-            Team score2 = board.registerNewTeam("team "+ number);
-            score2.addEntry("§"+colour+"§r");
+            Team score2 = board.registerNewTeam("team " + number);
+            score2.addEntry("§" + colour + "§r");
 
             if (key.length() <= 16) {
                 score2.setPrefix(key);
-                obj.getScore("§"+colour+"§r").setScore(number);
+                obj.getScore("§" + colour + "§r").setScore(number);
                 number = number + 1;
                 continue;
             }
 
             if (key.length() > 32) {
-                key = key.substring(0,32);
+                key = key.substring(0, 32);
             }
 
             score2.setPrefix(key.substring(0, 16));
             score2.setSuffix(key.substring(16));
 
-            obj.getScore("§"+colour+"§r").setScore(number);
+            obj.getScore("§" + colour + "§r").setScore(number);
             number = number + 1;
         }
 
@@ -74,22 +75,22 @@ public class Scoreboard {
 
             public void run() {
 
-                org.bukkit.scoreboard.Scoreboard board2 = player.getScoreboard();
+                Scoreboard board2 = player.getScoreboard();
 
                 int number2 = 1;
 
-                String title = plugin.getConfig().getString("scoreboard.title");
+                String title = AnimeBoard.INSTANCE.getConfig().getString("scoreboard.title");
                 if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                     title = PlaceholderAPI.setPlaceholders(player, title);
                 }
-                title = plugin.msgHandler.translate(title);
+                title = MessageUtil.translate(title);
                 obj.setDisplayName(title);
-                List<String> content = new ArrayList<String>(plugin.getConfig().getStringList("scoreboard.content"));
+                List<String> content = new ArrayList<String>(AnimeBoard.INSTANCE.getConfig().getStringList("scoreboard.content"));
 
                 ListIterator<String> listIter = content.listIterator(content.size());
                 while (listIter.hasPrevious()) {
                     String key = listIter.previous();
-                    key = plugin.msgHandler.translate(key);
+                    key = MessageUtil.translate(key);
                     if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                         key = PlaceholderAPI.setPlaceholders(player, key);
                     }
@@ -97,7 +98,7 @@ public class Scoreboard {
                     key = key.replaceAll("%playerdisplayname%", player.getDisplayName());
                     key = key.replaceAll("%maxplayers%", String.valueOf(Bukkit.getServer().getMaxPlayers()));
                     key = key.replaceAll("%players%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
-                    if(board2.getTeam("team "+ number2) == null){
+                    if (board2.getTeam("team " + number2) == null) {
                         cancel();
                     } else {
 
@@ -108,7 +109,7 @@ public class Scoreboard {
                         }
 
                         if (key.length() > 32) {
-                            key = key.substring(0,32);
+                            key = key.substring(0, 32);
                         }
 
                         board2.getTeam("team " + number2).setPrefix(key.substring(0, 16));
@@ -117,6 +118,6 @@ public class Scoreboard {
                     number2 = number2 + 1;
                 }
             }
-        }.runTaskTimer(plugin, 0, 20);
+        }.runTaskTimer(AnimeBoard.INSTANCE, 0, 20);
     }
 }
