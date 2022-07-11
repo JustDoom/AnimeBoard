@@ -1,5 +1,7 @@
 # AnimeBoard
 
+![Build Status](https://ci.imjustdoom.com/job/AnimeBoard/badge/icon)
+
 Designed to be a good scoreboard plugin!
 
 Versions:
