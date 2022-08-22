@@ -1,7 +1,7 @@
-package com.justdoom.animeboard.events;
+package com.imjustdoom.animeboard.listener;
 
-import com.justdoom.animeboard.AnimeBoard;
-import com.justdoom.animeboard.AnimeScoreboard;
+import com.imjustdoom.animeboard.AnimeBoard;
+import com.imjustdoom.animeboard.AnimeScoreboard;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -1,22 +1,20 @@
-package com.justdoom.animeboard;
+package com.imjustdoom.animeboard;
 
-import com.justdoom.animeboard.commands.ScoreboardCommands;
-import com.justdoom.animeboard.events.PlayerListener;
-import com.justdoom.animeboard.events.tabcomplete.AnimeBoardTabCompletion;
-import com.justdoom.animeboard.metrics.Metrics;
-import com.justdoom.animeboard.handler.BoardHandler;
-import com.justdoom.animeboard.util.MessageUtil;
+import com.imjustdoom.animeboard.command.AnimeBoardCmd;
+import com.imjustdoom.animeboard.command.subcommand.ReloadCmd;
+import com.imjustdoom.animeboard.listener.PlayerListener;
+import com.imjustdoom.animeboard.metric.Metrics;
+import com.imjustdoom.animeboard.handler.BoardHandler;
+import com.imjustdoom.cmdinstruction.CMDInstruction;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.concurrent.Callable;
 
 @Getter
 public final class AnimeBoard extends JavaPlugin {
 
     public static AnimeBoard INSTANCE;
-    private BoardHandler boardHandler = new BoardHandler();
+    private final BoardHandler boardHandler = new BoardHandler();
 
     public AnimeBoard() {
         INSTANCE = this;
@@ -28,11 +26,10 @@ public final class AnimeBoard extends JavaPlugin {
     public void onEnable() {
         int pluginId = 9758;
         Metrics metrics = new Metrics(this, pluginId);
-
         metrics.addCustomChart(new Metrics.SimplePie("used_language", () -> getConfig().getString("language", "en")));
 
-        this.getCommand("animeboard").setExecutor(new ScoreboardCommands());
-        this.getCommand("animeboard").setTabCompleter(new AnimeBoardTabCompletion());
+        CMDInstruction.registerCommands(this, new AnimeBoardCmd().setName("animeboard").setPermission("animeboard")
+                .setSubcommands(new ReloadCmd().setName("reload").setTabCompletions("reload")));
 
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 

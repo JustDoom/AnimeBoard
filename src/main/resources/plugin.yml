@@ -1,7 +1,7 @@
 name: AnimeBoard
-version: 2.0.0 SNAPSHOT
-main: com.justdoom.animeboard.AnimeBoard
-api-version: 1.17
+version: 1.12 Beta
+main: com.imjustdoom.animeboard.AnimeBoard
+api-version: 1.13
 authors: [ JustDoom ]
 softdepend:
   - PlaceHolderAPI

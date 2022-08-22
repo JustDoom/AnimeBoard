@@ -1,6 +1,6 @@
-package com.justdoom.animeboard.handler;
+package com.imjustdoom.animeboard.handler;
 
-import com.justdoom.animeboard.AnimeScoreboard;
+import com.imjustdoom.animeboard.AnimeScoreboard;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

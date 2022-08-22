@@ -1,4 +1,4 @@
-package com.justdoom.animeboard.metrics;
+package com.imjustdoom.animeboard.metric;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

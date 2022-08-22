@@ -1,6 +1,6 @@
-package com.justdoom.animeboard;
+package com.imjustdoom.animeboard;
 
-import com.justdoom.animeboard.util.MessageUtil;
+import com.imjustdoom.animeboard.util.MessageUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -56,9 +56,7 @@ public class AnimeScoreboard {
                 continue;
             }
 
-            if (key.length() > 32) {
-                key = key.substring(0, 32);
-            }
+            if (key.length() > 32) key = key.substring(0, 32);
 
             score2.setPrefix(key.substring(0, 16));
             score2.setSuffix(key.substring(16));
@@ -70,7 +68,6 @@ public class AnimeScoreboard {
         this.player.setScoreboard(board);
 
         new BukkitRunnable() {
-
             public void run() {
 
                 Scoreboard board2 = player.getScoreboard();
@@ -98,9 +95,8 @@ public class AnimeScoreboard {
                             .replaceAll("%maxplayers%", String.valueOf(Bukkit.getServer().getMaxPlayers()))
                             .replaceAll("%players%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
 
-                    if (board2.getTeam("team " + number2) == null) {
-                        cancel();
-                    } else {
+                    if (board2.getTeam("team " + number2) == null) cancel();
+                    else {
 
                         if (key.length() <= 16) {
                             board2.getTeam("team " + number2).setPrefix(key);
@@ -108,9 +104,7 @@ public class AnimeScoreboard {
                             continue;
                         }
 
-                        if (key.length() > 32) {
-                            key = key.substring(0, 32);
-                        }
+                        if (key.length() > 32) key = key.substring(0, 32);
 
                         board2.getTeam("team " + number2).setPrefix(key.substring(0, 16));
                         board2.getTeam("team " + number2).setSuffix(ChatColor.getLastColors(key.substring(0, 16)) + key.substring(16));
