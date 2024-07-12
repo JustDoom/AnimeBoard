@@ -29,7 +29,7 @@ public final class AnimeBoard extends JavaPlugin {
         metrics.addCustomChart(new Metrics.SimplePie("used_language", () -> getConfig().getString("language", "en")));
 
         CMDInstruction.registerCommands(this, new AnimeBoardCmd().setName("animeboard").setPermission("animeboard")
-                .setSubcommands(new ReloadCmd().setName("reload").setTabCompletions("reload")));
+                .setTabCompletions("reload").setSubcommands(new ReloadCmd().setName("reload").setTabCompletions("").setPermission("animeboard")));
 
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 
