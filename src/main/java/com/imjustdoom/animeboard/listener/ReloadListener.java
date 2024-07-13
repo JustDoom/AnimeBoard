@@ -9,6 +9,6 @@ public class ReloadListener implements Listener {
 
     @EventHandler
     public void onReload(ReloadEvent event) {
-        AnimeBoard.INSTANCE.reload();
+        AnimeBoard.reload();
     }
 }

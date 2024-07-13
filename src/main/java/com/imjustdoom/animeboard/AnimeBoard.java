@@ -2,53 +2,60 @@ package com.imjustdoom.animeboard;
 
 import com.imjustdoom.animeboard.command.AnimeBoardCmd;
 import com.imjustdoom.animeboard.command.subcommand.ReloadCmd;
+import com.imjustdoom.animeboard.handler.BukkitHandler;
 import com.imjustdoom.animeboard.listener.PlayerListener;
 import com.imjustdoom.animeboard.listener.ReloadListener;
 import com.imjustdoom.animeboard.metric.Metrics;
-import com.imjustdoom.animeboard.handler.BoardHandler;
+import com.imjustdoom.animeboard.util.MessageUtil;
 import com.imjustdoom.cmdinstruction.CMDInstruction;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @Getter
 public final class AnimeBoard extends JavaPlugin {
 
-    public static AnimeBoard INSTANCE;
-    private final BoardHandler boardHandler = new BoardHandler();
+    private static final int PLUGIN_ID = 9758;
 
-    public AnimeBoard() {
-        INSTANCE = this;
-    }
-
-    private boolean placeholderAPI = false;
+    @Getter
+    private static AnimeBoard plugin;
 
     @Override
     public void onEnable() {
-        int pluginId = 9758;
-        Metrics metrics = new Metrics(this, pluginId);
+        plugin = this;
+
+        // bStats
+        Metrics metrics = new Metrics(this, PLUGIN_ID);
         metrics.addCustomChart(new Metrics.SimplePie("used_language", () -> getConfig().getString("language", "en")));
 
+        // Register required events and commands.
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
         CMDInstruction.registerCommands(this, new AnimeBoardCmd().setName("animeboard").setPermission("animeboard")
                 .setTabCompletions("reload").setSubcommands(new ReloadCmd().setName("reload").setTabCompletions("").setPermission("animeboard")));
 
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
+        // Check for soft dependencies.
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) MessageUtil.setPlacerHolderAPI(true);
         if (Bukkit.getPluginManager().getPlugin("BetterReload") != null) Bukkit.getPluginManager().registerEvents(new ReloadListener(), this);
 
-        saveDefaultConfig();
+        // Update the scoreboards every second.
+        new BukkitRunnable() {
+            public void run() {
+                AnimeScoreboard.updateScoreboards();
+            }
+        }.runTaskTimer(this, 0, 20);
 
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) placeholderAPI = true;
+        saveDefaultConfig();
     }
 
-    public void reload() {
-        saveDefaultConfig();
-        reloadConfig();
-        getBoardHandler().clearScoreboards();
+    public static void reload() {
+        AnimeBoard.plugin.saveDefaultConfig();
+        AnimeBoard.plugin.reloadConfig();
+        AnimeScoreboard.clearScoreboards();
 
-        for (Player p : AnimeBoard.INSTANCE.getServer().getOnlinePlayers()) {
-            AnimeScoreboard board = new AnimeScoreboard(p);
-            AnimeBoard.INSTANCE.getBoardHandler().addScoreboard(p, board);
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            AnimeScoreboard.addScoreboard(p, new BukkitHandler(p));
         }
     }
 }

@@ -3,7 +3,9 @@ version: 1.12 Beta
 main: com.imjustdoom.animeboard.AnimeBoard
 api-version: 1.13
 authors: [ JustDoom ]
+load: POSTWORLD
 softdepend:
+  - BetterReload
   - PlaceHolderAPI
 commands:
   animeboard:
