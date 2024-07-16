@@ -70,7 +70,7 @@ public final class AnimeBoard extends JavaPlugin {
                 AnimeScoreboard.setPacketEvents(false);
             if (PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_20_3))
                 AnimeScoreboard.setPacketEvents(false);
-        }
+        } else AnimeScoreboard.setPacketEvents(false);
 
         AnimeScoreboard.clearScoreboards();
         for (Player player : Bukkit.getServer().getOnlinePlayers()) AnimeScoreboard.addScoreboard(player);
