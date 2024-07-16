@@ -37,7 +37,7 @@ public class PacketHandler implements Handler {
         title = MessageUtil.setPlacerholders(player, title);
 
         // This packet will register the objective AnimeBoard in the client.
-        user.sendPacket(new WrapperPlayServerScoreboardObjective(
+        user.writePacket(new WrapperPlayServerScoreboardObjective(
                 "AnimeBoard",
                 WrapperPlayServerScoreboardObjective.ObjectiveMode.CREATE,
                 Component.text(title),
@@ -45,7 +45,7 @@ public class PacketHandler implements Handler {
         ));
 
         // This packet will tell the client to display the objective AnimeBoard as a scoreboard.
-        user.sendPacket(new WrapperPlayServerDisplayScoreboard(1, "AnimeBoard"));
+        user.writePacket(new WrapperPlayServerDisplayScoreboard(1, "AnimeBoard"));
 
         List<String> content = new ArrayList<>(AnimeBoard.getPlugin().getConfig().getStringList("scoreboard.content"));
 
@@ -59,7 +59,7 @@ public class PacketHandler implements Handler {
              * essential for operation and I don't feel like learning the team-based equivalent for prior versions, so
              * packet support will only be for 1.20.3+ for now.
              */
-            user.sendPacket(new WrapperPlayServerUpdateScore(
+            user.writePacket(new WrapperPlayServerUpdateScore(
                     String.valueOf(content.size() - i),
                     WrapperPlayServerUpdateScore.Action.CREATE_OR_UPDATE_ITEM,
                     "AnimeBoard",
@@ -68,6 +68,8 @@ public class PacketHandler implements Handler {
                     ScoreFormat.fixedScore(Component.text(""))
             ));
         }
+
+        user.flushPackets();
     }
 
     /**
@@ -95,7 +97,7 @@ public class PacketHandler implements Handler {
         title = MessageUtil.setPlacerholders(player, title);
 
         // This packet will update the title text of the AnimeBoard objective.
-        user.sendPacket(new WrapperPlayServerScoreboardObjective(
+        user.writePacket(new WrapperPlayServerScoreboardObjective(
                 "AnimeBoard",
                 WrapperPlayServerScoreboardObjective.ObjectiveMode.UPDATE,
                 Component.text(title),
@@ -109,7 +111,7 @@ public class PacketHandler implements Handler {
             key = MessageUtil.translate(key);
             key = MessageUtil.setPlacerholders(player, key);
 
-            user.sendPacket(new WrapperPlayServerUpdateScore(
+            user.writePacket(new WrapperPlayServerUpdateScore(
                     String.valueOf(content.size() - i),
                     WrapperPlayServerUpdateScore.Action.CREATE_OR_UPDATE_ITEM,
                     "AnimeBoard",
@@ -118,5 +120,7 @@ public class PacketHandler implements Handler {
                     ScoreFormat.fixedScore(Component.text(""))
             ));
         }
+
+        user.flushPackets();
     }
 }
