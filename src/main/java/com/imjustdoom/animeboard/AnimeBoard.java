@@ -15,9 +15,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@Getter
 public final class AnimeBoard extends JavaPlugin {
 
+    //bStats id. Don't touch.
     private static final int PLUGIN_ID = 9758;
 
     @Getter
@@ -40,7 +40,7 @@ public final class AnimeBoard extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("BetterReload") != null) Bukkit.getPluginManager().registerEvents(new ReloadListener(), this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) MessageUtil.setPlacerHolderAPI(true);
 
-        // Update the scoreboards every second.
+        // Update all scoreboards every second.
         new BukkitRunnable() {
             public void run() {
                 AnimeScoreboard.updateScoreboards();
@@ -50,10 +50,19 @@ public final class AnimeBoard extends JavaPlugin {
         reload();
     }
 
+    /**
+     * Reloads all configuration settings.
+     */
     public static void reload() {
         AnimeBoard.plugin.saveDefaultConfig();
         AnimeBoard.plugin.reloadConfig();
 
+        /*
+         * Packets are supported if:
+         * 1. PacketEvents is installed.
+         * 2. The option "packet-based" is set to true (or doesn't exist).
+         * 3. The server is 1.20.3 or later (due to changes in the Update Score packet).
+         */
         if (Bukkit.getPluginManager().getPlugin("packetevents") != null) {
             AnimeScoreboard.setPacketEvents(true);
 
@@ -65,6 +74,5 @@ public final class AnimeBoard extends JavaPlugin {
 
         AnimeScoreboard.clearScoreboards();
         for (Player player : Bukkit.getServer().getOnlinePlayers()) AnimeScoreboard.addScoreboard(player);
-
     }
 }

@@ -5,6 +5,9 @@ import com.imjustdoom.animeboard.AnimeBoard;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+/**
+ * Basic support for the BetterReload plugin.
+ */
 public class ReloadListener implements Listener {
 
     @EventHandler

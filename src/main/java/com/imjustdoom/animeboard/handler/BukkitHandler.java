@@ -9,6 +9,10 @@ import org.bukkit.scoreboard.*;
 
 import java.util.*;
 
+/**
+ * This implementation of the Handler interface uses Bukkit methods to perform scoreboard functions.
+ * This handler requires no dependencies to work.
+ */
 public class BukkitHandler implements Handler {
 
     private final Player player;
@@ -20,6 +24,9 @@ public class BukkitHandler implements Handler {
         this.player = player;
     }
 
+    /**
+     * Create the scoreboard for the player via Bukkit methods.
+     */
     @Override
     public void createBoard() {
         ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -79,11 +86,17 @@ public class BukkitHandler implements Handler {
         player.setScoreboard(scoreboard);
     }
 
+    /**
+     * Remove the scoreboard for the player via Bukkit methods.
+     */
     @Override
     public void removeBoard() {
         player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
     }
 
+    /**
+     * Update the scoreboard for the player via Bukkit methods.
+     */
     @Override
     public void updateBoard() {
         int number2 = 1;
