@@ -7,6 +7,7 @@ load: POSTWORLD
 softdepend:
   - BetterReload
   - PlaceHolderAPI
+  - packetevents
 commands:
   animeboard:
     aliases: ab

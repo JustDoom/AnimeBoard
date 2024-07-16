@@ -1,8 +1,9 @@
 package com.imjustdoom.animeboard;
 
+import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.imjustdoom.animeboard.command.AnimeBoardCmd;
 import com.imjustdoom.animeboard.command.subcommand.ReloadCmd;
-import com.imjustdoom.animeboard.handler.BukkitHandler;
 import com.imjustdoom.animeboard.listener.PlayerListener;
 import com.imjustdoom.animeboard.listener.ReloadListener;
 import com.imjustdoom.animeboard.metric.Metrics;
@@ -35,9 +36,9 @@ public final class AnimeBoard extends JavaPlugin {
         CMDInstruction.registerCommands(this, new AnimeBoardCmd().setName("animeboard").setPermission("animeboard")
                 .setTabCompletions("reload").setSubcommands(new ReloadCmd().setName("reload").setTabCompletions("").setPermission("animeboard")));
 
-        // Check for soft dependencies.
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) MessageUtil.setPlacerHolderAPI(true);
+        // Check for other soft dependencies.
         if (Bukkit.getPluginManager().getPlugin("BetterReload") != null) Bukkit.getPluginManager().registerEvents(new ReloadListener(), this);
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) MessageUtil.setPlacerHolderAPI(true);
 
         // Update the scoreboards every second.
         new BukkitRunnable() {
@@ -46,16 +47,24 @@ public final class AnimeBoard extends JavaPlugin {
             }
         }.runTaskTimer(this, 0, 20);
 
-        saveDefaultConfig();
+        reload();
     }
 
     public static void reload() {
         AnimeBoard.plugin.saveDefaultConfig();
         AnimeBoard.plugin.reloadConfig();
-        AnimeScoreboard.clearScoreboards();
 
-        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            AnimeScoreboard.addScoreboard(p, new BukkitHandler(p));
+        if (Bukkit.getPluginManager().getPlugin("packetevents") != null) {
+            AnimeScoreboard.setPacketEvents(true);
+
+            if (!AnimeBoard.getPlugin().getConfig().getBoolean("packet-based", true))
+                AnimeScoreboard.setPacketEvents(false);
+            if (PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_20_3))
+                AnimeScoreboard.setPacketEvents(false);
         }
+
+        AnimeScoreboard.clearScoreboards();
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) AnimeScoreboard.addScoreboard(player);
+
     }
 }

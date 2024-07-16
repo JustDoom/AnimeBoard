@@ -9,13 +9,15 @@ import org.bukkit.scoreboard.*;
 
 import java.util.*;
 
-public class BukkitHandler extends Handler {
+public class BukkitHandler implements Handler {
+
+    private final Player player;
 
     private Objective objective;
     private Scoreboard scoreboard;
 
     public BukkitHandler(Player player) {
-        super(player);
+        this.player = player;
     }
 
     @Override
@@ -28,7 +30,17 @@ public class BukkitHandler extends Handler {
         title = MessageUtil.translate(title);
         title = MessageUtil.setPlacerholders(player, title);
 
-        objective = scoreboard.registerNewObjective("AnimeBoard", Criteria.DUMMY, title);
+        /*
+         * The scoreboard system was changed in modern versions. We avoid using the deprecated method as it may be
+         * removed, but we default back to it if it causes an exception.
+         */
+        try {
+            objective = scoreboard.registerNewObjective("AnimeBoard", Criteria.DUMMY, title);
+        } catch (NoClassDefFoundError error) {
+            objective = scoreboard.registerNewObjective("AnimeBoard", "dummy");
+            objective.setDisplayName(title);
+        }
+
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         int number = 1;
@@ -42,6 +54,8 @@ public class BukkitHandler extends Handler {
             key = MessageUtil.translate(key);
             key = MessageUtil.setPlacerholders(player, key);
 
+            if (key.length() > 32) key = key.substring(0, 32);
+
             Random rand = new Random();
             String colour = colours.get(rand.nextInt(colours.size()));
             colours.remove(colour);
@@ -54,8 +68,6 @@ public class BukkitHandler extends Handler {
                 number = number + 1;
                 continue;
             }
-
-            if (key.length() > 32) key = key.substring(0, 32);
 
             score2.setPrefix(key.substring(0, 16));
             score2.setSuffix(key.substring(16));
@@ -89,10 +101,6 @@ public class BukkitHandler extends Handler {
             String key = listIter.previous();
             key = MessageUtil.translate(key);
             key = MessageUtil.setPlacerholders(player, key);
-            key = key.replaceAll("%playername%", player.getName())
-                    .replaceAll("%playerdisplayname%", player.getDisplayName())
-                    .replaceAll("%maxplayers%", String.valueOf(Bukkit.getServer().getMaxPlayers()))
-                    .replaceAll("%players%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
 
             if (scoreboard.getTeam("team " + number2) == null) return;
             else {

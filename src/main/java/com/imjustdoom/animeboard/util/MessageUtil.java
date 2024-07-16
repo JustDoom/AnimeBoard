@@ -2,6 +2,7 @@ package com.imjustdoom.animeboard.util;
 
 import lombok.Setter;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -17,6 +18,10 @@ public class MessageUtil {
     public final static Pattern HEX_PATTERN_2 = Pattern.compile("#([A-Fa-f0-9]){6}");
 
     public static String setPlacerholders(Player player, String text) {
+        text = text.replaceAll("%playername%", player.getName())
+                .replaceAll("%playerdisplayname%", player.getDisplayName())
+                .replaceAll("%maxplayers%", String.valueOf(Bukkit.getServer().getMaxPlayers()))
+                .replaceAll("%players%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
         if (!placerHolderAPI) return text;
         return PlaceholderAPI.setPlaceholders(player, text);
     }

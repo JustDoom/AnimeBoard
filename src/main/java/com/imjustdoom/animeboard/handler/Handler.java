@@ -1,18 +1,10 @@
 package com.imjustdoom.animeboard.handler;
 
-import org.bukkit.entity.Player;
+public interface Handler {
 
-public abstract class Handler {
+    void createBoard();
 
-    protected final Player player;
+    void removeBoard();
 
-    public Handler(Player player) {
-        this.player = player;
-    }
-
-    public abstract void createBoard();
-
-    public abstract void removeBoard();
-
-    public abstract void updateBoard();
+    void updateBoard();
 }

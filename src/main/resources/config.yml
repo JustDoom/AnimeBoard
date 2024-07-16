@@ -1,3 +1,7 @@
+# Should AnimeBoard send packets itself if PacketEvents is installed?
+# If you are having compatibility issues with other plugins, try disabling this.
+packet-based: true
+
 #- 'PlaceHolders require papi'
 scoreboard:
   title: '&dAnime&8Board'
