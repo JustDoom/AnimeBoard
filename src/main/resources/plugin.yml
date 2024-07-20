@@ -1,10 +1,13 @@
 name: AnimeBoard
-version: 1.12 Beta
+version: 1.13.0-BETA
 main: com.imjustdoom.animeboard.AnimeBoard
 api-version: 1.13
 authors: [ JustDoom ]
+load: POSTWORLD
 softdepend:
+  - BetterReload
   - PlaceHolderAPI
+  - packetevents
 commands:
   animeboard:
     aliases: ab

@@ -1,13 +1,19 @@
+# Should AnimeBoard send packets itself if PacketEvents is installed?
+# If you are having compatibility issues with other plugins, try disabling this.
+packet-based: true
+
+#- 'PlaceHolders require papi'
 scoreboard:
   title: '&dAnime&8Board'
   content:
-    #- 'PlaceHolders require papi'
+    # These placeholderrs are available via /papi ecloud download Player
     - '&c&lPLAYER'
     - '&9Ping: &a%player_ping%'
     - '&9World: &a%player_world%'
     - '&9Name: &a%player_displayname%'
     - '&9EXP Level: &a%player_exp%'
     - ' '
+    # These placeholderrs are available via /papi ecloud download Server
     - '&c&lSERVER'
     - '&9TPS: &a%server_tps_1%'
     - '&9Version: &a%server_version%'

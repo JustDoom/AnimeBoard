@@ -1,8 +1,6 @@
 package com.imjustdoom.animeboard.listener;
 
-import com.imjustdoom.animeboard.AnimeBoard;
 import com.imjustdoom.animeboard.AnimeScoreboard;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -12,16 +10,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void joinEvent(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-
-        AnimeScoreboard board = new AnimeScoreboard(player);
-        AnimeBoard.INSTANCE.getBoardHandler().addScoreboard(player, board);
+        AnimeScoreboard.addScoreboard(event.getPlayer());
     }
 
     @EventHandler
     public void quitEvent(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-
-        AnimeBoard.INSTANCE.getBoardHandler().removeScoreboard(player);
+        AnimeScoreboard.removeScoreboard(event.getPlayer());
     }
 }
